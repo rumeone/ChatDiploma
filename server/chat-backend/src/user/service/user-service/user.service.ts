@@ -1,9 +1,10 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "../../models/user.entity";
-import {FindOneOptions, FindOptionsWhere, Repository} from "typeorm";
+import {Repository} from "typeorm";
 import {UserI} from "../../models/user.interface";
-import {from, map, Observable, switchMap} from "rxjs";
+import {from, map, mapTo, Observable, switchMap} from "rxjs";
+import {IPaginationOptions, paginate, Pagination} from "nestjs-typeorm-paginate";
 
 const bcrypt = require('bcrypt');
 
@@ -29,6 +30,38 @@ export class UserService {
                 }
             })
         );
+    }
+
+    login(user: UserI): Observable<boolean> {
+        return this.findByEmail(user.email).pipe(
+            switchMap((foundUser: UserI) => {
+                if (foundUser) {
+                    return this.validatePassword(user.password, foundUser.password).pipe(
+                        switchMap((matches: boolean) => {
+                            if (matches) {
+                                return this.findOne(foundUser.id).pipe(map(() => true))
+                            } else {
+                                throw new HttpException('Login was not successfull, worng credenitals', HttpStatus.UNAUTHORIZED);
+                            }
+                        })
+                    );
+                } else {
+                    throw new HttpException('User not found', HttpStatus.NOT_FOUND)
+                }
+            })
+        );
+    }
+
+    findAll(options: IPaginationOptions): Observable<Pagination<UserI>> {
+        return from(paginate<UserEntity>(this.userRepository, options));
+    }
+
+    private validatePassword(password: string, storedPasswordHash: string): Observable<any> {
+        return from(bcrypt.compare(password, storedPasswordHash));
+    }
+
+    private findByEmail(email: string): Observable<UserI> {
+        return from(this.userRepository.findOne({where: {email}, select: ['id', 'email', 'username', 'password']}));
     }
 
     private findOne(id: number): Observable<UserI> {
