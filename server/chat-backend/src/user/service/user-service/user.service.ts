@@ -67,6 +67,10 @@ export class UserService {
         return from(this.userRepository.findOne({where: {id}}));
     }
 
+    public getOne(id: number): Promise<UserI> {
+        return this.userRepository.findOneOrFail({where: {id}});
+    }
+
     private hashPassword(password: string): Observable<string> {
         return this.authService.hashPassword(password);
     }
