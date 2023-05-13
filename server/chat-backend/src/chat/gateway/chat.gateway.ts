@@ -1,30 +1,19 @@
-import {
-    OnGatewayConnection,
-    OnGatewayDisconnect,
-    SubscribeMessage,
-    WebSocketGateway,
-    WebSocketServer
-} from '@nestjs/websockets';
-import {AuthService} from "../../auth/service/auth.service";
-import {Server, Socket} from "socket.io";
-import {UserI} from "../../user/models/user.interface";
-import {UserService} from "../../user/service/user-service/user.service";
-import {UnauthorizedException} from "@nestjs/common";
+import { OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { AuthService } from 'src/auth/service/auth.service';
+import {Socket, Server} from 'socket.io';
+import { UserI } from 'src/user/models/user.interface';
+import { UserService } from 'src/user/service/user-service/user.service';
+import { UnauthorizedException } from '@nestjs/common';
 
-@WebSocketGateway({cors: {origin: ['https://hoppscotch.io', 'http://localhost:3000', 'http://localhost:4200']}})
+@WebSocketGateway({ cors: { origin: ['https://hoppscotch.io', 'http://localhost:3000', 'http://localhost:4200'] } })
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     @WebSocketServer()
     server: Server;
+
     title: string[] = [];
 
-    constructor(private authService: AuthService, private userService: UserService) {
-    }
-
-    /*@SubscribeMessage('message')
-    handleMessage(client: any, payload: any) {
-        this.server.emit('message', 'test');
-    }*/
+    constructor(private authService: AuthService, private userService: UserService) {}
 
     async handleConnection(socket: Socket) {
         try {
@@ -36,17 +25,18 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
                 this.title.push('Value ' + Math.random().toString());
                 this.server.emit('message', this.title);
             }
-        } catch (e) {
+        } catch {
             return this.disconnect(socket);
         }
     }
 
-    handleDisconnect(socket: Socket): any {
+    handleDisconnect(socket: Socket) {
         socket.disconnect();
     }
 
     private disconnect(socket: Socket) {
-        socket.emit('Error ', new UnauthorizedException());
+        socket.emit('Error', new UnauthorizedException());
         socket.disconnect();
     }
+
 }
