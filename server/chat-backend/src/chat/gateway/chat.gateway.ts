@@ -1,12 +1,19 @@
-import { OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
-import { AuthService } from 'src/auth/service/auth.service';
+import {
+    OnGatewayConnection,
+    OnGatewayDisconnect,
+    SubscribeMessage,
+    WebSocketGateway,
+    WebSocketServer
+} from '@nestjs/websockets';
+import {AuthService} from 'src/auth/service/auth.service';
 import {Socket, Server} from 'socket.io';
-import { UserI } from 'src/user/models/user.interface';
-import { UserService } from 'src/user/service/user-service/user.service';
-import { UnauthorizedException } from '@nestjs/common';
+import {UserI} from 'src/user/models/user.interface';
+import {UserService} from 'src/user/service/user-service/user.service';
+import {UnauthorizedException} from '@nestjs/common';
 import {RoomService} from "../service/room-service/room/room.service";
+import {RoomI} from "../model/room.interface";
 
-@WebSocketGateway({ cors: { origin: ['https://hoppscotch.io', 'http://localhost:3000', 'http://localhost:4200'] } })
+@WebSocketGateway({cors: {origin: ['https://hoppscotch.io', 'http://localhost:3000', 'http://localhost:4200']}})
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     @WebSocketServer()
@@ -14,7 +21,8 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     title: string[] = [];
 
-    constructor(private authService: AuthService, private userService: UserService, private roomService: RoomService) {}
+    constructor(private authService: AuthService, private userService: UserService, private roomService: RoomService) {
+    }
 
     async handleConnection(socket: Socket) {
         try {
@@ -40,6 +48,11 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private disconnect(socket: Socket) {
         socket.emit('Error', new UnauthorizedException());
         socket.disconnect();
+    }
+
+    @SubscribeMessage('createRoom')
+    async onCreateRoom(socket: Socket, room: RoomI): Promise<RoomI> {
+        return this.roomService.createRoom(room, socket.data.user)
     }
 
 }
