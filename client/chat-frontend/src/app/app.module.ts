@@ -1,20 +1,17 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {JwtModule} from "@auth0/angular-jwt";
 import {SocketIoConfig, SocketIoModule} from "ngx-socket-io";
 
 export function tokenGetter() {
-  return localStorage.getItem("nestjs_chat_app");
+  return localStorage.getItem("nestjs_chat_app") ?? ""; // Добавлено ?? "" для обработки значения null
 }
-
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
-
 @NgModule({
   declarations: [
     AppComponent
@@ -31,9 +28,9 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
         allowedDomains: ['localhost:3000']
       }
     }),
-    SocketIoModule.forRoot(config)
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
