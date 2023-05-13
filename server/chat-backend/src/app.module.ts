@@ -7,7 +7,7 @@ import {UserModule} from './user/user.module';
 import {UserHelperService} from './user/service/user-helper/user-helper.service';
 import {AuthModule} from './auth/auth.module';
 import {AuthMiddleware} from "./middleware/auth-middleware";
-import {UserController} from "./user/controller/user.controller";
+import { ChatModule } from './chat/chat.module';
 
 @Module({
     imports: [
@@ -27,20 +27,20 @@ import {UserController} from "./user/controller/user.controller";
         }),
         AppModule,
         UserModule,
-        AuthModule
+        AuthModule,
+        ChatModule
     ],
     controllers: [AppController],
     providers: [AppService, UserHelperService],
 })
-export class AppModule implements NestModule {
+/*export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
             .apply(AuthMiddleware)
             .exclude(
-                { path: 'api', method: RequestMethod.GET },
-                { path: 'api', method: RequestMethod.POST },
-                'api/(.*)',
+                { path: 'api/users/(.*)', method: RequestMethod.GET },
             )
-            .forRoutes(UserController);
+            .forRoutes('api/users');
     }
-}
+}*/
+export class AppModule {}
