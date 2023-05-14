@@ -1,6 +1,5 @@
 import {Body, Controller, Get, Post, Query, UseGuards} from '@nestjs/common';
 import {UserService} from "../service/user-service/user.service";
-import {map, Observable, of, switchMap} from 'rxjs'
 import {CreateUserDto} from "../models/dto/create-user.dto";
 import {UserHelperService} from "../service/user-helper/user-helper.service";
 import {UserI} from "../models/user.interface";
@@ -27,7 +26,6 @@ export class UserController {
     @Get()
     async findAll(@Query('page') page: number = 1,
                   @Query('limit') limit: number = 10): Promise<Pagination<UserI>> {
-
         limit = limit > 100 ? 100 : limit;
 
         return this.userService.findAll({page, limit, route: 'http://localhost:3000/api/users'});
@@ -36,7 +34,6 @@ export class UserController {
 
     @Post('login')
     async login(@Body() loginUserDto: LoginUserDto): Promise<LoginResponseI> {
-
         const userEntity: UserI = this.userHelperService.loginUserDtoToEntity(loginUserDto);
         const jwt: string = await this.userService.login(userEntity);
 

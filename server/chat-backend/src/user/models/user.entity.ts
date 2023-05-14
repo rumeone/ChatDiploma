@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, BeforeInsert, ManyToMany} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, BeforeInsert, ManyToMany, BeforeUpdate} from 'typeorm';
 import {RoomEntity} from "../../chat/model/room.entity";
 
 @Entity()
@@ -15,7 +15,9 @@ export class UserEntity {
     rooms: RoomEntity[];
 
     @BeforeInsert()
+    @BeforeUpdate()
     emailToLowerCase() {
         this.email = this.email.toLowerCase();
+        this.username = this.username.toLowerCase();
     }
 }
