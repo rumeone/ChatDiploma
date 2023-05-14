@@ -12,6 +12,7 @@ import {UserService} from 'src/user/service/user-service/user.service';
 import {UnauthorizedException} from '@nestjs/common';
 import {RoomService} from "../service/room-service/room/room.service";
 import {RoomI} from "../model/room.interface";
+import {PageI} from "../model/page.interface";
 
 @WebSocketGateway({cors: {origin: ['https://hoppscotch.io', 'http://localhost:3000', 'http://localhost:4200']}})
 export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -53,6 +54,14 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @SubscribeMessage('createRoom')
     async onCreateRoom(socket: Socket, room: RoomI): Promise<RoomI> {
         return this.roomService.createRoom(room, socket.data.user)
+    }
+
+    @SubscribeMessage('paginateRoom')
+    async onPaginateRoom(socket: Socket, page: PageI) {
+        page.limit = page.limit > 100 ? 100 : page.limit;
+        const rooms = await this.roomService.getRoomsForUser(socket.data.user.id, page);
+
+        return this.server.to(socket.id).emit('rooms', rooms)
     }
 
 }
