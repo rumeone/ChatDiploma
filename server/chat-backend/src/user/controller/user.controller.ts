@@ -31,6 +31,11 @@ export class UserController {
         return this.userService.findAll({page, limit, route: 'http://localhost:3000/api/users'});
 
     }
+    @UseGuards(JwtAuthGuard)
+    @Get('/find-by-username')
+    async findAllByUsername(@Query('username') username: string) {
+        return this.userService.findAllByUsername(username);
+    }
 
     @Post('login')
     async login(@Body() loginUserDto: LoginUserDto): Promise<LoginResponseI> {

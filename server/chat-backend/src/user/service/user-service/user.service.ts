@@ -1,7 +1,7 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserEntity} from "../../models/user.entity";
-import {Repository} from "typeorm";
+import {Like, Repository} from "typeorm";
 import {UserI} from "../../models/user.interface";
 import {IPaginationOptions, paginate, Pagination} from "nestjs-typeorm-paginate";
 import {AuthService} from "../../../auth/service/auth.service";
@@ -55,6 +55,14 @@ export class UserService {
 
     async findAll(options: IPaginationOptions): Promise<Pagination<UserI>> {
         return paginate<UserEntity>(this.userRepository, options);
+    }
+
+    async findAllByUsername(username: string): Promise<UserI[]> {
+        return this.userRepository.find({
+            where: {
+                username: Like(`%${username}%`)
+            }
+        })
     }
 
     private async findByEmail(email: string): Promise<UserI> {
