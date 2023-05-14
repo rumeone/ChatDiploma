@@ -2,6 +2,8 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import { ChatService } from '../../services/chat-service/chat.service';
 import {MatSelectionListChange} from "@angular/material/list";
 import {PageEvent} from "@angular/material/paginator";
+import {Observable} from "rxjs";
+import {RoomPaginatedI} from "../../../model/room.interface";
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +12,7 @@ import {PageEvent} from "@angular/material/paginator";
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
 
-  rooms$ = this.chatService.getMyRooms();
+  rooms$: Observable<RoomPaginatedI>= this.chatService.getMyRooms();
   selectedRoom = null;
 
   constructor(private chatService: ChatService) { }
