@@ -16,35 +16,35 @@ export class UserController {
     }
 
     @Post()
-    create(@Body() createUserDto: CreateUserDto): Observable<UserI> {
-        return this.userHelperService.createUserDtoToEntity(createUserDto).pipe(
-            switchMap((user: UserI) => this.userService.create(user))
-        )
+    async create(@Body() createUserDto: CreateUserDto): Promise<UserI> {
+        const userEntity: UserI = this.userHelperService.createUserDtoToEntity(createUserDto);
+
+        return this.userService.create(userEntity);
+
     }
 
     @UseGuards(JwtAuthGuard)
     @Get()
-    findAll(@Query('page') page: number = 1,
-            @Query('limit') limit: number = 10): Observable<Pagination<UserI>> {
+    async findAll(@Query('page') page: number = 1,
+                  @Query('limit') limit: number = 10): Promise<Pagination<UserI>> {
 
         limit = limit > 100 ? 100 : limit;
+
         return this.userService.findAll({page, limit, route: 'http://localhost:3000/api/users'});
-            
+
     }
 
     @Post('login')
-    login(@Body() loginUserDto: LoginUserDto): Observable<LoginResponseI> {
-        return this.userHelperService.loginUserDtoToEntity(loginUserDto).pipe(
-            switchMap((user: UserI) => this.userService.login(user).pipe(
-                map((jwt: string) => {
-                    return {
-                        access_token: jwt,
-                        token_type: 'JWT',
-                        expires_in: 10000
-                    }
-                })
-            ))
-        );
+    async login(@Body() loginUserDto: LoginUserDto): Promise<LoginResponseI> {
+
+        const userEntity: UserI = this.userHelperService.loginUserDtoToEntity(loginUserDto);
+        const jwt: string = await this.userService.login(userEntity);
+
+        return {
+            access_token: jwt,
+            token_type: 'JWT',
+            expires_in: 10000
+        }
     }
 
 }
