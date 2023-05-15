@@ -11,7 +11,7 @@ export interface RoomI {
 
 }
 
-export interface RoomPaginatedI {
+export interface RoomPaginateI {
   items: RoomI[];
   meta: Meta;
 

@@ -11,7 +11,7 @@ export class UserService {
 
   constructor(private http: HttpClient, private snackbar: MatSnackBar) { }
 
-  fundByUsername(username: string): Observable<UserI[]> {
+  findByUsername(username: string): Observable<UserI[]> {
     return this.http.get<UserI[]>(`api/users/find-by-username?username=${username}`);
   }
 

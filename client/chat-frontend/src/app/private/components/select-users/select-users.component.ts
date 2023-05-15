@@ -1,32 +1,32 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {UserI} from "../../../model/user.interface";
-import {FormControl} from "@angular/forms";
-import {debounceTime, distinctUntilChanged, switchMap, tap} from "rxjs";
-import {UserService} from "../../../public/service/user-service/user.service";
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
+import { UserI } from 'src/app/model/user.interface';
+import { UserService } from 'src/app/public/service/user-service/user.service';
+
 
 @Component({
   selector: 'app-select-users',
   templateUrl: './select-users.component.html',
-  styleUrls: ['./select-users.component.css']
+  styleUrls: ['./select-users.component.scss']
 })
 export class SelectUsersComponent implements OnInit {
 
   @Input() users: UserI[] = [];
   @Output() addUser: EventEmitter<UserI> = new EventEmitter<UserI>();
-  @Output() removeUser: EventEmitter<UserI> = new EventEmitter<UserI>();
+  @Output() removeuser: EventEmitter<UserI>= new EventEmitter<UserI>();
 
   searchUsername = new FormControl();
   filteredUsers: UserI[] = [];
   selectedUser: UserI | null = null;
 
-  constructor(private userService: UserService) {
-  }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.searchUsername.valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged(),
-      switchMap((username: string) => this.userService.fundByUsername(username).pipe(
+      switchMap((username: string) => this.userService.findByUsername(username).pipe(
         tap((users: UserI[]) => this.filteredUsers = users)
       ))
     ).subscribe();
@@ -41,6 +41,14 @@ export class SelectUsersComponent implements OnInit {
     this.searchUsername.setValue(null);
   }
 
+  removeUserFromForm(user: UserI) {
+    this.removeuser.emit(user);
+  }
+
+  setSelectedUser(user: UserI) {
+    this.selectedUser = user;
+  }
+
   displayFn(user: UserI): string {
     if (user) {
       return <string>user.username;
@@ -49,8 +57,21 @@ export class SelectUsersComponent implements OnInit {
     }
   }
 
-  setSelectedUser(user: UserI) {
-    this.selectedUser = user;
-  }
-
 }
+
+/*  addUserToForm() {
+    if (this.selectedUser !== null) {
+      this.addUser.emit(this.selectedUser);
+    }
+    this.selectedUser = null;
+    this.filteredUsers = [];
+    this.searchUsername.setValue(null);
+  }*/
+
+/*  displayFn(user: UserI): string {
+    if (user) {
+      return <string>user.username;
+    } else {
+      return '';
+    }
+  }*/

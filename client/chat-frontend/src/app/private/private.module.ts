@@ -15,6 +15,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatIconModule} from "@angular/material/icon";
 import { SelectUsersComponent } from './components/select-users/select-users.component';
+import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
 
 
 @NgModule({
@@ -23,20 +24,21 @@ import { SelectUsersComponent } from './components/select-users/select-users.com
     CreateRoomComponent,
     SelectUsersComponent
   ],
-  imports: [
-    CommonModule,
-    PrivateRoutingModule,
-    MatListModule,
-    MatPaginatorModule,
-    MatButtonModule,
-    MatCardModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatChipsModule,
-    MatAutocompleteModule,
-    MatIconModule
-  ]
+    imports: [
+        CommonModule,
+        PrivateRoutingModule,
+        MatListModule,
+        MatPaginatorModule,
+        MatButtonModule,
+        MatCardModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        MatAutocompleteModule,
+        MatIconModule,
+        MatLegacyChipsModule
+    ]
 })
 export class PrivateModule {
 }
