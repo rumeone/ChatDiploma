@@ -7,10 +7,11 @@ import {TypeOrmModule} from "@nestjs/typeorm";
 import {UserEntity} from "../user/models/user.entity";
 import {RoomEntity} from "./model/room.entity";
 import { ConnectedUserService } from './service/connected-user/connected-user.service';
+import {ConnectedUserEntity} from "./model/connected-user.entity";
 
 @Module({
   imports: [AuthModule, UserModule, TypeOrmModule.forFeature([
-      UserEntity, RoomEntity
+      UserEntity, RoomEntity, ConnectedUserEntity
   ])],
   providers: [ChatGateway, RoomService, ConnectedUserService]
 })
