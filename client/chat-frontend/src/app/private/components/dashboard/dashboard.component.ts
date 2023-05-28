@@ -36,7 +36,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   onPaginateRooms(pageEvent: PageEvent) {
-    console.log(this.rooms$)
     this.chatService.emitPaginateRooms(pageEvent.pageSize, pageEvent.pageIndex)
   }
 
