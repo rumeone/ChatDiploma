@@ -4,7 +4,7 @@ import { Socket, Server } from 'socket.io';
 import { UserI } from 'src/user/models/user.interface';
 import { UserService } from 'src/user/service/user-service/user.service';
 import { UnauthorizedException } from '@nestjs/common';
-import { RoomService } from '../service/room-service/room/room.service';
+import { RoomService } from '../service/room-service/room.service';
 import { RoomI } from '../model/room.interface';
 import { PageI } from '../model/page.interface';
 
