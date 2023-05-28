@@ -32,6 +32,4 @@ export class RoomService {
         room.users.push(creator);
         return room;
     }
-
-
 }
