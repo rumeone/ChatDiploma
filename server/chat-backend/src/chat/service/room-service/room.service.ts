@@ -14,6 +14,7 @@ export class RoomService {
 
     async createRoom(room: RoomI, creator: UserI): Promise<RoomI> {
         const newRoom = await this.addCreatorToRoom(room, creator);
+        console.log(newRoom);
         return this.roomRepository.save(newRoom);
     }
 
