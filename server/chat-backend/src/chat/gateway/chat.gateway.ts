@@ -5,9 +5,9 @@ import { UserI } from 'src/user/models/user.interface';
 import { UserService } from 'src/user/service/user-service/user.service';
 import {OnModuleInit, UnauthorizedException} from '@nestjs/common';
 import { RoomService } from '../service/room-service/room.service';
-import { RoomI } from '../model/room.interface';
+import { RoomI } from '../model/room/room.interface';
 import { PageI } from '../model/page.interface';
-import {ConnectedUserI} from "../model/connected-user.interface";
+import {ConnectedUserI} from "../model/connected-user/connected-user.interface";
 import {ConnectedUserService} from "../service/connected-user/connected-user.service";
 
 @WebSocketGateway({ cors: { origin: ['https://hoppscotch.io', 'http://localhost:3000', 'http://localhost:4200'] } })

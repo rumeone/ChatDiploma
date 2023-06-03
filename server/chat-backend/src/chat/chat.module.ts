@@ -5,9 +5,9 @@ import {UserModule} from "../user/user.module";
 import { RoomService } from './service/room-service/room.service';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {UserEntity} from "../user/models/user.entity";
-import {RoomEntity} from "./model/room.entity";
+import {RoomEntity} from "./model/room/room.entity";
 import { ConnectedUserService } from './service/connected-user/connected-user.service';
-import {ConnectedUserEntity} from "./model/connected-user.entity";
+import {ConnectedUserEntity} from "./model/connected-user/connected-user.entity";
 
 @Module({
   imports: [AuthModule, UserModule, TypeOrmModule.forFeature([
