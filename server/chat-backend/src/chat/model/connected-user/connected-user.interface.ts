@@ -1,4 +1,4 @@
-import {UserI} from "../../user/models/user.interface";
+import {UserI} from "../../../user/models/user.interface";
 
 export interface ConnectedUserI {
     id?: number;

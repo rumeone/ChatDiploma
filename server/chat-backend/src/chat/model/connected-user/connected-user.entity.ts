@@ -1,5 +1,5 @@
 import {Column, Entity, PrimaryGeneratedColumn, JoinColumn, OneToMany, OneToOne} from "typeorm";
-import {UserEntity} from "../../user/models/user.entity";
+import {UserEntity} from "../../../user/models/user.entity";
 
 @Entity()
 export class ConnectedUserEntity {
