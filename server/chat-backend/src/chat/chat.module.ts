@@ -11,11 +11,12 @@ import {ConnectedUserEntity} from "./model/connected-user/connected-user.entity"
 import {MessageEntity} from "./model/message/message.entity";
 import {JoinedRoomEntity} from "./model/joined-room/joined-room.entity";
 import { JoinedRoomService } from './service/joined-room/joined-room.service';
+import { MessageService } from './service/message/message.service';
 
 @Module({
   imports: [AuthModule, UserModule, TypeOrmModule.forFeature([
       UserEntity, RoomEntity, ConnectedUserEntity, MessageEntity, JoinedRoomEntity
   ])],
-  providers: [ChatGateway, RoomService, ConnectedUserService, JoinedRoomService]
+  providers: [ChatGateway, RoomService, ConnectedUserService, JoinedRoomService, MessageService]
 })
 export class ChatModule {}
