@@ -3,7 +3,8 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {JoinedRoomEntity} from "../../model/joined-room/joined-room.entity";
 import {Repository} from "typeorm";
 import {RoomI} from "../../model/room/room.interface";
-import {JoinedRoomInterface} from "../../model/joined-room/joined-room.interface";
+import {JoinedRoomI} from "../../model/joined-room/joined-room.interface";
+import {UserI} from "../../../user/models/user.interface";
 
 @Injectable()
 export class JoinedRoomService {
@@ -12,15 +13,19 @@ export class JoinedRoomService {
                 private readonly joinedRoomRepository: Repository<JoinedRoomEntity>) {
     }
 
-    async create() {
-
+    async create(joinedRoomUser: JoinedRoomI): Promise<JoinedRoomI> {
+        return this.joinedRoomRepository.save(joinedRoomUser);
     }
 
-    async findByUser() {
-
+    async findByUser(user: UserI): Promise<JoinedRoomI[]> {
+        return this.joinedRoomRepository.find({
+            where: {
+                user: user
+            }
+        })
     }
 
-    async findByRoom(room: RoomI): Promise<JoinedRoomInterface[]> {
+    async findByRoom(room: RoomI): Promise<JoinedRoomI[]> {
         return this.joinedRoomRepository.find({
             where : {
                 room: room
