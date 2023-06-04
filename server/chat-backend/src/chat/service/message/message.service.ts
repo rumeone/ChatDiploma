@@ -14,14 +14,17 @@ export class MessageService {
     }
 
     async create(message: MessageI): Promise<MessageI> {
-        return this.messageRepository.save(this.messageRepository.create(message))
+        return this.messageRepository.save(this.messageRepository.create(message));
     }
 
     async findMessageForRoom(room: RoomI, options: IPaginationOptions): Promise<Pagination<MessageI>> {
-        return paginate(this.messageRepository, options, {
-            room,
-            relations: ['user', 'room']
-        })
+        const query = this.messageRepository.createQueryBuilder()
+            .leftJoin('message.room', 'room')
+            .where('room.id = :roomId', {roomId: room.id})
+            .leftJoinAndSelect('message.user', 'user')
+            .orderBy('message.created_at', 'ASC');
+
+        return paginate(query, options);
     }
 
 }
