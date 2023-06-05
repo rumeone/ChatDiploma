@@ -24,8 +24,8 @@ export class ChatService {
     this.socket.emit('leaveRoom', room);
   }
 
-  getMessage(): Observable<MessagePaginateI> {
-    return this.socket.fromEvent<MessagePaginateI>('message');
+  getMessages(): Observable<MessagePaginateI> {
+    return this.socket.fromEvent<MessagePaginateI>('messages');
   }
 
   getMyRooms(): Observable<RoomPaginateI> {

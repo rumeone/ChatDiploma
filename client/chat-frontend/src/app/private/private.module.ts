@@ -17,6 +17,7 @@ import {MatIconModule} from "@angular/material/icon";
 import { SelectUsersComponent } from './components/select-users/select-users.component';
 import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
 import { ChatRoomComponent } from './components/chat-room/chat-room.component';
+import { ChatMessageComponent } from './components/chat-message/chat-message.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { ChatRoomComponent } from './components/chat-room/chat-room.component';
     DashboardComponent,
     CreateRoomComponent,
     SelectUsersComponent,
-    ChatRoomComponent
+    ChatRoomComponent,
+    ChatMessageComponent
   ],
     imports: [
         CommonModule,

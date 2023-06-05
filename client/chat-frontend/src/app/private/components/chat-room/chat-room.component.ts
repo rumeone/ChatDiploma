@@ -16,7 +16,7 @@ export class ChatRoomComponent implements OnDestroy, OnChanges {
 
   @Input() chatRoom: RoomI | undefined;
 
-  messages$: Observable<MessagePaginateI> = this.chatService.getMessage();
+  messages$: Observable<MessagePaginateI> = this.chatService.getMessages();
   chatMessage: FormControl = new FormControl(null, [Validators.required]);
 
   ngOnDestroy() {
