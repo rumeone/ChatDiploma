@@ -22,7 +22,7 @@ export class MessageService {
             .leftJoin('message.room', 'room')
             .where('room.id = :roomId', {roomId: room.id})
             .leftJoinAndSelect('message.user', 'user')
-            .orderBy('message.created_at', 'ASC');
+            .orderBy('message.created_at', 'DESC');
 
         return paginate(query, options);
     }
