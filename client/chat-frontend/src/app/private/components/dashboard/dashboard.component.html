@@ -3,24 +3,29 @@
     <div style="display: flex; flex-direction: row;">
 
       <div>
-        <h1>My Chatrooms</h1>
-        <button mat-button [routerLink]="['../create-room']">Create new Room</button>
-        <ng-container *ngIf="rooms$ | async as rooms">
-          <ng-container *ngIf="rooms.items.length > 0; else no_rooms">
-            <mat-selection-list [multiple]="false" (selectionChange)="onSelectRoom($event)">
-              <mat-list-option *ngFor="let room of rooms.items" [value]="room">
-                Name: {{room.name}} Id: {{room.id}}
-                <mat-divider></mat-divider>
-              </mat-list-option>
-            </mat-selection-list>
-            <mat-paginator [length]="rooms.meta.totalItems" [pageIndex]="rooms.meta.currentPage"
-                           [pageSize]="rooms.meta.itemCount" (page)="onPaginateRooms($event)"
-                           [pageSizeOptions]="[10,25,50]"></mat-paginator>
+        <div>
+          <h2>My Chatrooms</h2>
+          <button mat-button [routerLink]="['../create-room']">Create new Room</button>
+        </div>
+
+        <div class="rooms">
+          <ng-container *ngIf="rooms$ | async as rooms">
+            <ng-container *ngIf="rooms.items.length > 0; else no_rooms">
+              <mat-selection-list [multiple]="false" (selectionChange)="onSelectRoom($event)">
+                <mat-list-option *ngFor="let room of rooms.items" [value]="room">
+                  Name: {{room.name}} Id: {{room.id}}
+                  <mat-divider></mat-divider>
+                </mat-list-option>
+              </mat-selection-list>
+              <mat-paginator [length]="rooms.meta.totalItems" [pageIndex]="rooms.meta.currentPage"
+                             [pageSize]="(rooms$ | async)?.meta?.itemsPerPage" (page)="onPaginateRooms($event)"
+                             [pageSizeOptions]="[10,25,50]"></mat-paginator>
+            </ng-container>
           </ng-container>
-        </ng-container>
+        </div>
       </div>
 
-      <div style="margin-left: 40px;">
+      <div class="chatroom">
         <h1>My Room</h1>
         {{ selectedRoom | json }}
       </div>
