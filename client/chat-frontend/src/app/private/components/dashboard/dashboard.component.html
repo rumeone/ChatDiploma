@@ -26,9 +26,11 @@
       </div>
 
       <div class="chatroom">
-        <h1>My Room</h1>
-        {{ selectedRoom | json }}
+        <app-chat-room [chatRoom]="selectedRoom ? selectedRoom : undefined">
+
+        </app-chat-room>
       </div>
+
 
     </div>
   </mat-card>

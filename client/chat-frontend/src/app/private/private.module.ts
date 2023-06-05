@@ -16,13 +16,15 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatIconModule} from "@angular/material/icon";
 import { SelectUsersComponent } from './components/select-users/select-users.component';
 import {MatLegacyChipsModule} from "@angular/material/legacy-chips";
+import { ChatRoomComponent } from './components/chat-room/chat-room.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     CreateRoomComponent,
-    SelectUsersComponent
+    SelectUsersComponent,
+    ChatRoomComponent
   ],
     imports: [
         CommonModule,
