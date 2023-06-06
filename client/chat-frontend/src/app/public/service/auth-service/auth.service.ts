@@ -26,6 +26,7 @@ export class AuthService {
 
   getLoggedInUser() {
     const decodedToken = this.jwtService.decodeToken();
+    console.log(`Token are ${decodedToken}`);
     return decodedToken.user;
   }
 
