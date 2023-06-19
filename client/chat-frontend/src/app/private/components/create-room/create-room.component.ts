@@ -3,6 +3,7 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserI } from 'src/app/model/user.interface';
 import { ChatService } from '../../services/chat-service/chat.service';
+import {identity} from "rxjs";
 
 @Component({
   selector: 'app-create-room',
@@ -38,8 +39,10 @@ export class CreateRoomComponent {
     this.users.push(userFormControl);
   }
 
-  removeUser(userId: number) {
-    this.users.removeAt(this.users.value.findIndex((user: UserI) => user.id === userId));
+  removeUser(userId: number | undefined) {
+    if(userId !== undefined) {
+      this.users.removeAt(this.users.value.findIndex((user: UserI) => user.id === userId));
+    }
   }
 
   get name(): FormControl {
